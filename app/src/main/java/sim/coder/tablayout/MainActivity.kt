@@ -3,14 +3,12 @@ package sim.coder.tablayout
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import sim.coder.tablayout.fragment.CallsFragment
-import sim.coder.tablayout.fragment.CameraFragment
-import sim.coder.tablayout.fragment.ChatFragment
+import sim.coder.tablayout.fragment.TabFragment
+
 
 lateinit var tabLayout: TabLayout
 lateinit var tabViewPager: ViewPager2
@@ -23,6 +21,9 @@ class MainActivity : AppCompatActivity() {
         tabLayout = findViewById(R.id.tabs)
         tabViewPager = findViewById(R.id.viewPager)
 
+
+
+
         tabViewPager.adapter  = object : FragmentStateAdapter(this){
             override fun getItemCount(): Int {
 
@@ -30,19 +31,23 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun createFragment(position: Int): Fragment {
-                return when (position){
-                    0 -> CameraFragment.newInstance("Camera Fragment","Fragment")
-                    1 -> ChatFragment.newInstance("Chat Fragment","Fragment")
-                    2 -> CallsFragment.newInstance("Calls Fragment","Fragment")
+                return  when(position){
 
-                    else -> {
-                        ChatFragment.newInstance("First","Fragment")
-                    }
+                    0->TabFragment.newInstance("camera")
+                    1->TabFragment.newInstance("chat")
+                    2->TabFragment.newInstance("calls")
+
+
+                    else->TabFragment.newInstance("camera")
                 }
             }
 
 
+
+
+
         }
+
         TabLayoutMediator(tabLayout, tabViewPager) {tab, position ->
             tab.text = when (position){
                 0 -> "Camera"
@@ -56,6 +61,7 @@ class MainActivity : AppCompatActivity() {
 
 
         }.attach()
+
 
 
         tabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_baseline_camera_alt_24)
